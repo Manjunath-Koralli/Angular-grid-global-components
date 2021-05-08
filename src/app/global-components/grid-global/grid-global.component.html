@@ -1,0 +1,21 @@
+<ion-row>
+    <div grid-actions>
+        <div inner-grid-actions>
+            <ion-row *ngIf="actionOptions.gridHeading" zero-margin-top h1-headings h1-headings-regular-text>
+                <h1>{{actionOptions.gridText}}</h1>
+            </ion-row>
+            <ion-row minus-margin class="ion-justify-content-start" *ngIf="actionOptions.showQuickFind">
+                <ion-col offset-lg="8.5" offset-md="6"></ion-col>
+                <ion-col size="12" size-sm="4" size-md="6" size-lg="3.5">
+                    <ion-row class="ion-justify-content-start ion-align-items-center">
+                        <ion-col *ngIf="actionOptions.pageRowSetter" size="12" size-sm="1" size-md="3" size-lg="3">
+                            <app-drop-down [dataList]="pageSize" (changeValue)="onPageSizeChanged($event)" 
+                                    [(ngModel)]="pageSizeDrop" selected="{{pageSize}}">
+                            </app-drop-down>
+                        </ion-col>
+                    </ion-row>                    
+                </ion-col>                
+            </ion-row>
+        </div>
+    </div>
+</ion-row>
