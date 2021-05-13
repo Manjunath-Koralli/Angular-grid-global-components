@@ -9,20 +9,25 @@ import { DropDownComponent } from './global-components/drop-down/drop-down.compo
 import { MatSelectModule } from '@angular/material/select';
 import { IonicModule } from '@ionic/angular';
 import { GridConstants } from './util/grid-constants';
-
+import { RadioButtonGroupComponent } from './global-components/radio-button-group/radio-button-group.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
     AppComponent,
     GridGlobalComponent,
-    DropDownComponent
+    DropDownComponent,
+    RadioButtonGroupComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     MatSelectModule,
     AgGridModule.withComponents([]),
+    MatRadioModule,
     BrowserAnimationsModule,
+    FormsModule,
     IonicModule.forRoot()
   ],
   providers: [

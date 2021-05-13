@@ -1,0 +1,9 @@
+<mat-radio-group [(ngModel)]="radioValue" [attr.input-disabled]="disabled" ngDefaultControl 
+        [ngClasss]="radioClass" *ngIf="displayFlex" name="radioValue"
+        radio-group aria-labelledby="Select an option">
+    <div display-flex>
+        <mat-radio-button radio-button *ngFor="let item of dataList" value="{{item.value}}" (change)="radioChange($event)">
+            {{item.display}}
+        </mat-radio-button>
+    </div>
+</mat-radio-group>

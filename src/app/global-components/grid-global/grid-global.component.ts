@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GridSharedService } from 'src/app/common/grid-shared.service';
 
 @Component({
@@ -9,6 +9,7 @@ import { GridSharedService } from 'src/app/common/grid-shared.service';
 export class GridGlobalComponent implements OnInit {
 
   @Input() actionOptions;
+  @Output() export = new EventEmitter();
 
   public pageSizeDrop : any;
 
@@ -47,6 +48,8 @@ export class GridGlobalComponent implements OnInit {
     this.gridSharedService.updateRowSetterSize(pazeSizeValue);
   }
 
-
+  onBtnExport(){
+    this.export.emit();
+  }
 
 }

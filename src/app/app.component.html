@@ -1,4 +1,4 @@
-<ion-app>
+<ion-app> 
     <ion-header>
         <ion-toolbar>
             <ion-title>Grid and Global Conponents</ion-title>
@@ -7,8 +7,46 @@
 
     <ion-content class="ion-padding">
         <ion-grid>
+            <ion-row *ngIf="showOptions" row-height bottompadding
+                class="window ion-justify-content-start ion-align-self-center">
+                <ion-col half-margin-top size="12" size-lg="12" size-md="12" size-sm="12">
+                    <b>There are two ways through which we can export the data from grid as shown in options below:</b>
+                </ion-col>
+                <ion-col size="12" size-lg="12" size-md="12" size-sm="12">
+                    <ion-row minus-margin class="ion-align-self-center">
+                        <span id="innertext">
+                            <p>Please select any of the options :</p>
+                        </span>
+                    </ion-row>
+                    <ion-row class="ion-align-self-center">
+                        <ion-col size="12" size-lg="12" size-md="12" size-sm="12">
+                            <ion-list>
+                                <app-radio-button-group [displayFlex]="true" (changeRadio)="changedRadio($event)"
+                                    [dataList]="radioOptions">
+                                </app-radio-button-group>
+                            </ion-list>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="ion-align-self-center">
+                        <ion-col size="12" size-lg="12" size-md="12" size-sm="12">
+                            <ion-button center-align solid-btn note-btn (click)='onBtnExport()'>
+                                <ion-label font-bold>
+                                    Export
+                                </ion-label>
+                            </ion-button>
+                            <ion-button center-align solid-btn note-btn (click)='cancel()'>
+                                <ion-label font-bold>
+                                    Cancel
+                                </ion-label>
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
+
             <div>
-                <app-grid-global full-width [actionOptions]="actionOptions" (recordsPerPage)="recordsPerPageGrid($event)">
+                <app-grid-global full-width [actionOptions]="actionOptions"
+                    (recordsPerPage)="recordsPerPageGrid($event)" (export)='exportGrid($event)'>
                 </app-grid-global>
                 <ion-row one-margin-left countlabel-heading>
                     <ion-label input-label countlabel>
@@ -16,16 +54,16 @@
                     </ion-label>
                 </ion-row>
                 <div>
-                    <ag-grid-angular #agGrid style="width:1450px; height: 500px;" id="myGrid" class="ag-theme-alpine" 
-                        [defaultColDef] = "defaultColDef" [icons] = "icons"
-                        [sideBar]="sideBar" [rowData]="rowData" [columnDefs]="columnDefs" rowSelection="multiple"
-                        [enableRangeSelection]="true" [pagination]="pagination" [paginationPageSize]="paginationPageSize"
+                    <ag-grid-angular #agGrid style="width:1450px; height: 500px;" id="myGrid" class="ag-theme-alpine"
+                        [defaultColDef]="defaultColDef" [icons]="icons" [sideBar]="sideBar" [rowData]="rowData"
+                        [columnDefs]="columnDefs" rowSelection="multiple" [enableRangeSelection]="true"
+                        [pagination]="pagination" [paginationPageSize]="paginationPageSize"
                         (gridReady)="onGridReady($event)">
                     </ag-grid-angular>
                 </div>
             </div>
-            
+
         </ion-grid>
-        
+
     </ion-content>
 </ion-app>

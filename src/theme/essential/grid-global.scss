@@ -17,6 +17,11 @@
     }  
 }
 
+[display-flex] {
+    display: flex;
+    flex-direction: column;
+}
+
 [full-width] {
     width: 100%;
 }
@@ -31,6 +36,14 @@
 
 [one-margin-left] {
     margin-left: 0.5rem !important;
+}
+
+[float-right] {
+    float : right !important;
+}
+
+[float-left] {
+    float: left !important;
 }
 
 [countlabel-heading] {
@@ -77,6 +90,52 @@
     border-radius: 0px !important;
 }
 
+//buttons
+
+[txt-btn]{
+    height: 24px;
+    box-sizing: border-box;
+    box-shadow: none;
+    background: transparent;
+    ion-label {
+        color: #ff1f3e;
+        height: 18px;
+        font-size: 0.975em;
+        line-height: 18px;
+        text-transform: initial;
+        ion-icon {
+            padding-right: 5px;
+            color: #ff1f3e !important;
+            vertical-align: middle;
+        }
+    }
+}
+
+[txt-btn][blue]{
+    background: transparent;
+    ion-label {
+        color: #1b1b6f;
+        ion-icon {
+            color: #1b1b6f !important;
+        }
+    }
+}
+
+[txt-btn][lightblue]{
+    --background: transparent;
+    ion-label {
+        color: #1b1b6f;
+        opacity: 0.5;
+        ion-icon {
+            color: #1b1b6f !important;
+        }
+    }
+}
+
+
+[font-bold] {
+    font-weight:bold !important;
+}
 // Grid
 .ag-theme-balham {
     background-color: transparent;

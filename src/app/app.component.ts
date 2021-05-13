@@ -26,14 +26,28 @@ export class AppComponent implements OnInit {
   icons;
 
   actionOptions: any = {
-    gridHeading : true,
-    gridText : 'Grid Global',
-    showQuickFind : true,
+    gridHeading: true,
+    gridText: 'Grid Global',
+    showQuickFind: true,
     pageRowSetter: true
   }
 
+  displayedColumnsSelected: boolean = false;
+  allColumnsSelected: boolean = false;
+  showOptions: boolean = false;
 
-  constructor(private http: HttpClient,private gridSharedService : GridSharedService, private gridConstants : GridConstants) {
+  radioOptions= [
+    {
+      value: 'DisplayedColumns',
+      display: 'Displayed Columns'
+    },
+    {
+      value: 'AllColumns',
+      display: 'All Columns'
+    }
+  ]
+
+  constructor(private http: HttpClient, private gridSharedService: GridSharedService, private gridConstants: GridConstants) {
 
     this.defaultColDef = {
       flex: 1,
@@ -47,7 +61,7 @@ export class AppComponent implements OnInit {
         field: 'athlete',
         filter: true,
         floatingFilter: true,
-        sortable : true,
+        sortable: true,
         minWidth: 200
       },
       {
@@ -55,14 +69,14 @@ export class AppComponent implements OnInit {
         field: 'age',
         filter: true,
         floatingFilter: true,
-        sortable : true
+        sortable: true
       },
       {
         headerName: 'Country',
         field: 'country',
         filter: true,
         floatingFilter: true,
-        sortable : true,
+        sortable: true,
         minWidth: 200
       },
       {
@@ -70,14 +84,14 @@ export class AppComponent implements OnInit {
         field: 'year',
         filter: true,
         floatingFilter: true,
-        sortable : true
+        sortable: true
       },
       {
         headerName: 'Sport',
         field: 'sport',
         filter: true,
         floatingFilter: true,
-        sortable : true,
+        sortable: true,
         minWidth: 200
       },
       {
@@ -85,28 +99,28 @@ export class AppComponent implements OnInit {
         field: 'gold',
         filter: true,
         floatingFilter: true,
-        sortable : true
+        sortable: true
       },
       {
         headerName: 'Silver',
         field: 'silver',
         filter: true,
         floatingFilter: true,
-        sortable : true
+        sortable: true
       },
       {
         headerName: 'Bronze',
         field: 'bronze',
         filter: true,
         floatingFilter: true,
-        sortable : true
+        sortable: true
       },
       {
         headerName: 'Total',
         field: 'total',
         filter: true,
         floatingFilter: true,
-        sortable : true
+        sortable: true
       },
     ];
 
@@ -124,7 +138,7 @@ export class AppComponent implements OnInit {
       {
         field: 'bronze',
         filter: 'agNumberColumnFilter',
-      },      
+      },
       {
         field: 'country',
         filter: 'agSetColumnFilter',
@@ -132,18 +146,18 @@ export class AppComponent implements OnInit {
       {
         field: 'gold',
         filter: 'agNumberColumnFilter',
-      },      
+      },
       {
         field: 'sport',
         filter: true,
         floatingFilter: true
       },
-      
+
       {
         field: 'silver',
         filter: 'agNumberColumnFilter',
       },
-      
+
       {
         field: 'total',
         filter: 'agNumberColumnFilter',
@@ -172,12 +186,13 @@ export class AppComponent implements OnInit {
           }
         },
       ]
-    }; 
+    };
   }
 
   ngOnInit(): void {
     //this.rowData = this.http.get<any[]>('https://www.ag-grid.com/example-assets/olympic-winners.json');
     this.icons = this.gridConstants.getIcons();
+    
   }
 
   onGridReady(params) {
@@ -186,28 +201,101 @@ export class AppComponent implements OnInit {
     this.gridApi.paginationSetPageSize(Number(this.paginationPageSize));
     var columnToolPanel = this.gridApi.getToolPanelInstance('columns');
     columnToolPanel.setColumnLayout(this.columnDefsSort);
-    
+
     this.http.get('https://www.ag-grid.com/example-assets/olympic-winners.json')
-      .subscribe((data : any[]) => {
+      .subscribe((data: any[]) => {
         this.resultLength = data.length;
         this.rowData = data;
       });
 
-      this.gridSharedService.rowSetterPerPage.subscribe(pageSizeValue => {
-        this.paginationPageSize = pageSizeValue;
-        this.gridApi.paginationSetPageSize(Number(this.paginationPageSize));
-      });     
-    
+    this.gridSharedService.rowSetterPerPage.subscribe(pageSizeValue => {
+      this.paginationPageSize = pageSizeValue;
+      this.gridApi.paginationSetPageSize(Number(this.paginationPageSize));
+    });
+
   }
 
-  recordsPerPageGrid(evt){
+  recordsPerPageGrid(evt) {
     let totalPageSize = this.gridApi.paginationGetTotalPages();
-    if(evt < totalPageSize){
+    if (evt < totalPageSize) {
       this.gridApi.pagginationGoToPage(evt);
     }
     else {
       alert("Invalid Page Number")
     }
   }
+
+  exportGrid(evt) {
+    var showPopUp = confirm("Show PopUp ? ");
+    if (showPopUp) {
+      this.showOptions = true;
+    }
+    else {
+      this.showOptions = false;
+      let dateObj = new Date();
+      let month = dateObj.getUTCMonth() + 1;
+      let day = dateObj.getUTCDate();
+      let year = dateObj.getUTCFullYear();
+
+      let params = {
+        fileName: "Grid_Result_" + year + "_" + month + "_" + day + "_" + new Date().getHours() + "_" + new Date().getMinutes() + "_" + new Date().getSeconds() + ".xls",
+        sheetName: "First Sheet"
+      }
+
+      this.gridApi.exportDataAsExcel(params);
+    }
+
+
+  }
+
+  changedRadio(event) {
+    if (event.value === "DisplayedColumns") {
+      this.displayedColumnsSelected = true;
+      this.allColumnsSelected = false;
+    }
+    else if (event.value === "AllColumns") {
+      this.displayedColumnsSelected = false;
+      this.allColumnsSelected = true;
+    }
+  }
+
+  onBtnExport() {
+    if (this.allColumnsSelected) {
+      let dateObj = new Date();
+      let month = dateObj.getUTCMonth() + 1;
+      let day = dateObj.getUTCDate();
+      let year = dateObj.getUTCFullYear();
+
+      let params = {
+        allColumns : true,
+        fileName: "Grid_Result_" + year + "_" + month + "_" + day + "_" + new Date().getHours() + "_" + new Date().getMinutes() + "_" + new Date().getSeconds() + ".xls",
+        sheetName: "First Sheet"
+      }
+      this.gridApi.exportDataAsExcel(params);
+      this.showOptions = false;
+    }
+    else if (this.displayedColumnsSelected) {
+      let dateObj = new Date();
+      let month = dateObj.getUTCMonth() + 1;
+      let day = dateObj.getUTCDate();
+      let year = dateObj.getUTCFullYear();
+
+      let params = {
+        fileName: "Grid_Result_" + year + "_" + month + "_" + day + "_" + new Date().getHours() + "_" + new Date().getMinutes() + "_" + new Date().getSeconds() + ".xls",
+        sheetName: "First Sheet"
+      }
+      this.gridApi.exportDataAsExcel(params);
+      this.showOptions = false;
+    }
+  }
+
+  cancel() {
+    this.showOptions = false;
+  }
+
+  favoriteSeason: string;
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+
+
 
 }

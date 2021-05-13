@@ -1,6 +1,17 @@
 <ion-row>
     <div grid-actions>
         <div inner-grid-actions>
+            <ion-row class="ion-justify-content-start ion-align-items-center" minus-margin one-margin-left>
+                <ion-col size='12' size-lg='8' size-md='4' size-sm='7'></ion-col>
+                <ion-col size='12' size-lg='4' size-md='6' size-sm='3'>
+                    <ion-button float-right txt-btn blue (click)='onBtnExport()'>
+                        <ion-label font-bold>
+                            <!-- <ion-icon float-left class="custom-export-icon"></ion-icon>-->
+                                Export 
+                        </ion-label>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
             <ion-row *ngIf="actionOptions.gridHeading" zero-margin-top h1-headings h1-headings-regular-text>
                 <h1>{{actionOptions.gridText}}</h1>
             </ion-row>

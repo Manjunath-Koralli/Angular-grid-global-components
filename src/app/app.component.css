@@ -1,0 +1,10 @@
+.window{
+    width: 450px;
+    z-index: 9999;
+    position: absolute !important;
+    margin: 15px 29px 80px 757px !important;
+    float: right;
+    border: 1px solid black;
+    background: aliceblue;
+    height: 335px;
+}
